@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormField, visibleFieldError } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
@@ -10,13 +12,15 @@ type Props = {
 };
 
 export const ThirdStepAvailability = ({ form, showAllErrors }: Props) => {
+  const t = useTranslations("form");
+
   return (
     <div className="space-y-4">
       <form.Field name="isAvailable">
         {(field) => (
           <label className="flex min-h-9 cursor-pointer items-center gap-2 border-b border-border pb-3 text-sm font-medium">
             <Switch checked={field.state.value} onCheckedChange={field.handleChange} />
-            Produkt jest dostępny
+            {t("isAvailable")}
           </label>
         )}
       </form.Field>
@@ -31,7 +35,7 @@ export const ThirdStepAvailability = ({ form, showAllErrors }: Props) => {
                 if (checked !== true) form.setFieldValue("stockQuantity", "");
               }}
             />
-            Produkt limitowany
+            {t("isLimited")}
           </label>
         )}
       </form.Field>
@@ -43,7 +47,7 @@ export const ThirdStepAvailability = ({ form, showAllErrors }: Props) => {
               {(field) => {
                 const error = visibleFieldError(showAllErrors, field.state.meta);
                 return (
-                  <FormField id="stockQuantity" label="Ilość na magazynie" error={error}>
+                  <FormField id="stockQuantity" label={t("stockQuantity")} error={error}>
                     <Input
                       id="stockQuantity"
                       name={field.name}
@@ -67,13 +71,13 @@ export const ThirdStepAvailability = ({ form, showAllErrors }: Props) => {
       </form.Subscribe>
 
       <fieldset className="space-y-3">
-        <legend className="mb-3 text-sm font-medium">Limity koszyka</legend>
+        <legend className="mb-3 text-sm font-medium">{t("basketLimits")}</legend>
         <div className="grid gap-4 sm:grid-cols-2">
           <form.Field name="minQuantity">
             {(field) => {
               const error = visibleFieldError(showAllErrors, field.state.meta);
               return (
-                <FormField id="minQuantity" label="Minimalna ilość" error={error}>
+                <FormField id="minQuantity" label={t("minQuantity")} error={error}>
                   <Input
                     id="minQuantity"
                     name={field.name}
@@ -96,7 +100,7 @@ export const ThirdStepAvailability = ({ form, showAllErrors }: Props) => {
             {(field) => {
               const error = visibleFieldError(showAllErrors, field.state.meta);
               return (
-                <FormField id="maxQuantity" label="Maksymalna ilość" error={error}>
+                <FormField id="maxQuantity" label={t("maxQuantity")} error={error}>
                   <Input
                     id="maxQuantity"
                     name={field.name}

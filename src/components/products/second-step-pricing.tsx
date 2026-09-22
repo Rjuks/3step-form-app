@@ -1,3 +1,5 @@
+import { useLocale, useTranslations } from "next-intl";
+
 import { FormField, visibleFieldError } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,13 +20,16 @@ type Props = {
 };
 
 export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatChange }: Props) => {
+  const locale = useLocale();
+  const t = useTranslations("form");
+
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <form.Field name="netPrice">
         {(field) => {
           const error = visibleFieldError(showAllErrors, field.state.meta);
           return (
-            <FormField id="netPrice" label="Cena netto" error={error}>
+            <FormField id="netPrice" label={t("netPrice")} error={error}>
               <Input
                 id="netPrice"
                 name={field.name}
@@ -34,7 +39,7 @@ export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatCha
                 value={field.state.value}
                 onChange={(event) => onPriceChange("netPrice", event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="0.00"
+                placeholder={locale === "pl" ? "0,00" : "0.00"}
                 aria-invalid={!!error}
                 aria-describedby={error ? "netPrice-error" : undefined}
                 className="rounded-full"
@@ -48,7 +53,7 @@ export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatCha
         {(field) => {
           const error = visibleFieldError(showAllErrors, field.state.meta);
           return (
-            <FormField id="grossPrice" label="Cena brutto" error={error}>
+            <FormField id="grossPrice" label={t("grossPrice")} error={error}>
               <Input
                 id="grossPrice"
                 name={field.name}
@@ -58,7 +63,7 @@ export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatCha
                 value={field.state.value}
                 onChange={(event) => onPriceChange("grossPrice", event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="0.00"
+                placeholder={locale === "pl" ? "0,00" : "0.00"}
                 aria-invalid={!!error}
                 aria-describedby={error ? "grossPrice-error" : undefined}
                 className="rounded-full"
@@ -72,7 +77,7 @@ export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatCha
         {(field) => {
           const error = visibleFieldError(showAllErrors, field.state.meta);
           return (
-            <FormField id="vatRate" label="Stawka VAT" error={error}>
+            <FormField id="vatRate" label={t("vatRate")} error={error}>
               <Select
                 value={String(field.state.value)}
                 onValueChange={(value) => onVatChange(Number(value))}
@@ -103,7 +108,7 @@ export const SecondStepPricing = ({ form, showAllErrors, onPriceChange, onVatCha
         {(field) => {
           const error = visibleFieldError(showAllErrors, field.state.meta);
           return (
-            <FormField id="currency" label="Waluta" error={error}>
+            <FormField id="currency" label={t("currency")} error={error}>
               <Select value={field.state.value} onValueChange={field.handleChange}>
                 <SelectTrigger
                   id="currency"

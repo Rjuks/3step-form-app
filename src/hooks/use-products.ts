@@ -74,5 +74,20 @@ export const useProducts = () => {
     setAddedProducts((current) => [product, ...current]);
   };
 
-  return { products: [...addedProducts, ...MOCK_PRODUCTS], loaded, addProduct };
+  const updateProduct = (product: Product) => {
+    setAddedProducts((current) => current.map((item) => (item.id === product.id ? product : item)));
+  };
+
+  const deleteProduct = (id: string) => {
+    setAddedProducts((current) => current.filter((item) => item.id !== id));
+  };
+
+  return {
+    products: [...addedProducts, ...MOCK_PRODUCTS],
+    addedProductIds: new Set(addedProducts.map((product) => product.id)),
+    loaded,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+  };
 };

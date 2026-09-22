@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 import { FormField, visibleFieldError } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
@@ -9,13 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  CATEGORIES,
-  CATEGORY_LABELS,
-  FEATURES,
-  FEATURE_LABELS,
-  MANUFACTURERS,
-} from "@/constants/consts";
+import { CATEGORIES, FEATURES, MANUFACTURERS } from "@/constants/consts";
 import type { ProductFormApi } from "@/hooks/use-product-form";
 
 type Props = {
@@ -24,6 +20,10 @@ type Props = {
 };
 
 export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
+  const t = useTranslations("form");
+  const categoryLabel = useTranslations("categories");
+  const featureLabel = useTranslations("features");
+
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -31,14 +31,14 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
           {(field) => {
             const error = visibleFieldError(showAllErrors, field.state.meta);
             return (
-              <FormField id="name" label="Nazwa produktu" error={error}>
+              <FormField id="name" label={t("name")} error={error}>
                 <Input
                   id="name"
                   name={field.name}
                   value={field.state.value}
                   onChange={(event) => field.handleChange(event.target.value)}
                   onBlur={field.handleBlur}
-                  placeholder="np. MacBook Pro 14"
+                  placeholder={t("namePlaceholder")}
                   aria-invalid={!!error}
                   aria-describedby={error ? "name-error" : undefined}
                   className="rounded-full"
@@ -52,14 +52,14 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
           {(field) => {
             const error = visibleFieldError(showAllErrors, field.state.meta);
             return (
-              <FormField id="sku" label="SKU produktu" error={error}>
+              <FormField id="sku" label={t("sku")} error={error}>
                 <Input
                   id="sku"
                   name={field.name}
                   value={field.state.value}
                   onChange={(event) => field.handleChange(event.target.value)}
                   onBlur={field.handleBlur}
-                  placeholder="np. MBP14M3PRO"
+                  placeholder={t("skuPlaceholder")}
                   aria-invalid={!!error}
                   aria-describedby={error ? "sku-error" : undefined}
                   className="rounded-full"
@@ -72,14 +72,14 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
 
       <form.Field name="description">
         {(field) => (
-          <FormField id="description" label="Opis produktu">
+          <FormField id="description" label={t("description")}>
             <Textarea
               id="description"
               name={field.name}
               value={field.state.value}
               onChange={(event) => field.handleChange(event.target.value)}
               onBlur={field.handleBlur}
-              placeholder="Krótki opis produktu"
+              placeholder={t("descriptionPlaceholder")}
               className="min-h-16 resize-none rounded-lg"
             />
           </FormField>
@@ -91,7 +91,7 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
           {(field) => {
             const error = visibleFieldError(showAllErrors, field.state.meta);
             return (
-              <FormField id="manufacturer" label="Producent" error={error}>
+              <FormField id="manufacturer" label={t("manufacturer")} error={error}>
                 <Select value={field.state.value} onValueChange={field.handleChange}>
                   <SelectTrigger
                     id="manufacturer"
@@ -100,7 +100,7 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
                     aria-describedby={error ? "manufacturer-error" : undefined}
                     className="h-8 w-full rounded-full"
                   >
-                    <SelectValue placeholder="Wybierz producenta" />
+                    <SelectValue placeholder={t("manufacturerPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {MANUFACTURERS.map((manufacturer) => (
@@ -119,7 +119,7 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
           {(field) => {
             const error = visibleFieldError(showAllErrors, field.state.meta);
             return (
-              <FormField id="category" label="Kategoria" error={error}>
+              <FormField id="category" label={t("category")} error={error}>
                 <Select value={field.state.value} onValueChange={field.handleChange}>
                   <SelectTrigger
                     id="category"
@@ -128,12 +128,12 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
                     aria-describedby={error ? "category-error" : undefined}
                     className="h-8 w-full rounded-full"
                   >
-                    <SelectValue placeholder="Wybierz kategorię" />
+                    <SelectValue placeholder={t("categoryPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {CATEGORIES.map((category) => (
                       <SelectItem key={category} value={category}>
-                        {CATEGORY_LABELS[category]}
+                        {categoryLabel(category)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -148,8 +148,12 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
         {(field) => {
           const error = visibleFieldError(showAllErrors, field.state.meta);
           return (
-            <fieldset className="space-y-2" aria-invalid={!!error}>
-              <legend className="text-sm font-medium">Cechy produktu</legend>
+            <fieldset
+              className="space-y-2"
+              aria-invalid={!!error}
+              tabIndex={error ? -1 : undefined}
+            >
+              <legend className="text-sm font-medium">{t("features")}</legend>
               <div className="flex flex-wrap gap-2">
                 {FEATURES.map((feature) => {
                   const selected = field.state.value.includes(feature);
@@ -173,7 +177,7 @@ export const FirstStepInformation = ({ form, showAllErrors }: Props) => {
                           : "text-muted-foreground"
                       }`}
                     >
-                      {FEATURE_LABELS[feature]}
+                      {featureLabel(feature)}
                     </Button>
                   );
                 })}

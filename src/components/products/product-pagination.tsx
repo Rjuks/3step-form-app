@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { formatProductCount } from "@/utils/product-count";
 
 type Props = {
   page: number;
@@ -11,7 +11,8 @@ type Props = {
 };
 
 export const ProductPagination = ({ page, pageCount, productCount, onPageChange }: Props) => {
-  const pageSummary = `Strona ${page} z ${pageCount} · ${formatProductCount(productCount)}`;
+  const t = useTranslations("catalog");
+  const pageSummary = t("pageSummary", { page, pageCount, count: productCount });
   const visiblePageCount = Math.min(pageCount, 3);
   const firstVisiblePage = Math.max(1, Math.min(page - 1, pageCount - visiblePageCount + 1));
 
@@ -31,7 +32,7 @@ export const ProductPagination = ({ page, pageCount, productCount, onPageChange 
           className="h-8 gap-1 px-2 text-sm font-medium"
         >
           <ChevronLeft className="size-4" aria-hidden="true" />
-          Wstecz
+          {t("back")}
         </Button>
         {Array.from({ length: visiblePageCount }, (_, index) => firstVisiblePage + index).map(
           (number) => (
@@ -40,7 +41,7 @@ export const ProductPagination = ({ page, pageCount, productCount, onPageChange 
               type="button"
               variant={number === page ? "default" : "ghost"}
               size="icon-sm"
-              aria-label={`Strona ${number}`}
+              aria-label={`${t("page")} ${number}`}
               aria-current={number === page ? "page" : undefined}
               onClick={() => onPageChange(number)}
               className={`size-8 ${number === page ? "bg-blue-600 text-white hover:bg-blue-700" : ""}`}
@@ -57,7 +58,7 @@ export const ProductPagination = ({ page, pageCount, productCount, onPageChange 
           onClick={() => onPageChange(page + 1)}
           className="h-8 gap-1 px-2 text-sm font-medium"
         >
-          Dalej
+          {t("next")}
           <ChevronRight className="size-4" aria-hidden="true" />
         </Button>
       </div>

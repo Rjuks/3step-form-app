@@ -1,19 +1,16 @@
 import { Check } from "lucide-react";
 
-const steps = [
-  { title: "Informacje", description: "Dane podstawowe" },
-  { title: "Cena", description: "Dane cenowe" },
-  { title: "Dostępność", description: "Stany magazynowe" },
-] as const;
+type Props = {
+  steps: readonly { title: string; description: string }[];
+  currentStep: number;
+};
 
-type Props = { currentStep: number };
-
-export const StepIndicator = ({ currentStep }: Props) => {
+export const StepIndicator = ({ steps, currentStep }: Props) => {
   return (
-    <ol className="mx-4 grid grid-cols-3 gap-2 border-y border-border py-6 sm:mx-0 sm:flex sm:items-center sm:gap-4 sm:px-4 sm:py-3">
+    <ol className="mx-4 flex gap-2 border-y border-border py-6 sm:mx-0 sm:items-center sm:gap-4 sm:px-4 sm:py-3">
       {steps.map((step, index) => (
         <li
-          key={step.title}
+          key={index}
           className="flex min-w-0 flex-1 flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:text-left md:flex-none md:gap-4"
         >
           <div className="flex min-w-0 flex-1 flex-col items-center gap-3 sm:flex-row sm:items-center md:flex-none">

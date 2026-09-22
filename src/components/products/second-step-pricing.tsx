@@ -1,3 +1,4 @@
+import { FormField, visibleFieldError } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -8,8 +9,6 @@ import {
 } from "@/components/ui/select";
 import { CURRENCY, VAT_RATES } from "@/constants/consts";
 import type { ProductFormApi } from "@/hooks/use-product-form";
-
-import { FormField, visibleFieldError } from "./form-field";
 
 type Props = {
   form: ProductFormApi;

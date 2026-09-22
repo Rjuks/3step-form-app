@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { StepIndicator } from "@/components/ui/step-indicator";
 import { useProductForm } from "@/hooks/use-product-form";
 import { createProductSchema, type ProductFormValues } from "@/schemas/create-product";
 import type { Product } from "@/types/product";
@@ -19,8 +20,13 @@ import { centsToInput, grossFromNet, netFromGross, parseMoneyToCents } from "@/u
 
 import { FirstStepInformation } from "./first-step-information";
 import { SecondStepPricing } from "./second-step-pricing";
-import { StepIndicator } from "./step-indicator";
 import { ThirdStepAvailability } from "./third-step-availability";
+
+const createProductSteps = [
+  { title: "Informacje", description: "Dane podstawowe" },
+  { title: "Cena", description: "Dane cenowe" },
+  { title: "Dostępność", description: "Stany magazynowe" },
+] as const;
 
 type Props = {
   onClose: () => void;
@@ -117,7 +123,7 @@ export const CreateProductDialog = ({ onClose, onSave }: Props) => {
           </DialogClose>
         </DialogHeader>
 
-        <StepIndicator currentStep={step} />
+        <StepIndicator steps={createProductSteps} currentStep={step} />
 
         <form
           className="flex min-h-0 flex-1 flex-col"

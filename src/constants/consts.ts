@@ -1,3 +1,5 @@
+export const ITEMS_PER_PAGE = 5;
+
 export const CURRENCY = {
   PLN: "PLN",
   EUR: "EUR",

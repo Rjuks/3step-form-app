@@ -16,7 +16,6 @@ type Props = { products: Product[] };
 
 export const ProductTable = ({ products }: Props) => {
   return (
-    // UX improvement: lg:min-h-[280px] for table to be visible even if there are no products
     <div className="hidden lg:block lg:min-h-[280px]">
       <Table className="min-w-[900px] table-fixed">
         <TableHeader className="bg-gray-50 [&_th]:text-muted-foreground">

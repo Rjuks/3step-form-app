@@ -90,10 +90,9 @@ export const CreateProductDialog = ({ onClose, onSave }: Props) => {
     recalculatePrice(source, form.state.values[source], vatRate);
   };
 
-  const continueForm = async () => {
+  const continueForm = () => {
     setAttempted((current) => current.map((value, index) => (index === step ? true : value)));
-    await form.validate("submit");
-    await form.handleSubmit();
+    void form.handleSubmit();
   };
 
   return (

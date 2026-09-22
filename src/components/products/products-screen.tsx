@@ -12,6 +12,7 @@ import { formatProductCount } from "@/utils/product-count";
 
 import { ProductCard } from "./product-card";
 import { CreateProductDialog } from "./create-product-dialog";
+import { ProductListSkeleton } from "./product-list-skeleton";
 import { ProductPagination } from "./product-pagination";
 import { ProductTable } from "./product-table";
 
@@ -85,7 +86,7 @@ export const ProductsScreen = () => {
             />
           </>
         ) : (
-          <div className="min-h-[280px]" />
+          <ProductListSkeleton count={ITEMS_PER_PAGE} />
         )}
       </div>
 

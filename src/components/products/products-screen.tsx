@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { ITEMS_PER_PAGE } from "@/constants/consts";
 import { useProducts } from "@/hooks/use-products";
 import type { Product } from "@/types/product";
 import { formatProductCount } from "@/utils/product-count";
@@ -15,8 +16,6 @@ import { CreateProductDialog } from "./create-product-dialog";
 import { ProductListSkeleton } from "./product-list-skeleton";
 import { ProductPagination } from "./product-pagination";
 import { ProductTable } from "./product-table";
-
-const ITEMS_PER_PAGE = 5;
 
 export const ProductsScreen = () => {
   const { products, loaded, addProduct } = useProducts();

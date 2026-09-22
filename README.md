@@ -1,69 +1,83 @@
 # 3step-form-app
 
-A recruitment assignment built with Next.js and React. The planned application is a responsive product catalog with a three-step form for adding products. The [Figma design](https://www.figma.com/design/ik3UeUaEbQ9bdqsB4FSvjY/Zadanie-rekrutacyjne---WorkConnect?node-id=0-1) provides the UI reference.
+A responsive product catalog with a three-step form for adding products. The application is built for the [WorkConnect recruitment assignment](docs/Specyfikacja_Zadania.pdf) and follows its [Figma design](https://www.figma.com/design/ik3UeUaEbQ9bdqsB4FSvjY/Zadanie-rekrutacyjne---WorkConnect?node-id=0-1). The interface is in Polish.
 
-## Current scope
+## Features
 
-This first project commit sets up the framework, dependencies, code quality tools, styling, and internationalization. The application route, product data, UI components, translations, and behavior will be added in later commits. The PL and EN message files intentionally contain only `{}`.
+- A catalog initialized with five example products, displayed five per page in a table or mobile cards.
+- A three-step form for product information, pricing, and availability, with validation before moving to the next step.
+- Automatic net and gross price calculation when either price or the VAT rate changes.
+- Conditional stock quantity and minimum and maximum basket quantity validation.
+- Pagination synchronized with the `page` URL parameter.
+- New products saved in the browser's `localStorage` and restored when the page is reopened.
+- A success toast after adding a product.
 
 ## Getting started
 
-You need Node.js 20.9 or later and npm.
+Requires Node.js 20.9 or later and npm.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The `/` route is not implemented in this configuration commit, so it currently returns 404.
+Open [http://localhost:3000](http://localhost:3000). For a local production run:
 
-To check a production build locally, run `npm run build` followed by `npm run start`. The build script uses Webpack.
+```bash
+npm run build
+npm run start
+```
 
-## Code quality commands
+The five initial products are defined in `src/mocks.ts`. Only products added through the form are stored in `localStorage`; clearing the site's browser data removes them. The application does not use a backend.
 
-| Command                | Purpose                                     |
-| ---------------------- | ------------------------------------------- |
-| `npm run check`        | Run lint, typecheck, and formatting checks. |
-| `npm run lint`         | Check code with ESLint.                     |
-| `npm run lint:fix`     | Apply available ESLint fixes.               |
-| `npm run typecheck`    | Check TypeScript without emitting files.    |
-| `npm run format:check` | Check formatting with Prettier.             |
-| `npm run format`       | Format files with Prettier.                 |
+## Project structure
 
-No automated test suite is configured yet.
+| Path                       | Responsibility                                                |
+| -------------------------- | ------------------------------------------------------------- |
+| `src/app/`                 | Next.js route and root layout.                                |
+| `src/components/products/` | Product screen, table, cards, pagination, dialog, form steps. |
+| `src/components/ui/`       | Reusable UI components based on shadcn/ui.                    |
+| `src/constants/`           | Select options and display labels.                            |
+| `src/hooks/`               | Form and product storage state.                               |
+| `src/schemas/`             | Zod schemas for form values and validation.                   |
+| `src/types/`               | Stored product type.                                          |
+| `src/utils/`               | Price calculations and product count formatting.              |
+| `src/mocks.ts`             | Initial catalog products.                                     |
+| `src/styles/globals.css`   | Tailwind setup and design tokens.                             |
 
 ## Dependencies
 
-Runtime packages are in `dependencies`; build and developer tools are in `devDependencies`. `package-lock.json` pins the resolved dependency tree for reproducible `npm ci` installs.
+Runtime packages are listed in `dependencies`; build tools and code quality tools are in `devDependencies`. `package-lock.json` locks the resolved versions used by `npm ci`.
 
-| Runtime package              | Purpose                                            |
-| ---------------------------- | -------------------------------------------------- |
-| `next`, `react`, `react-dom` | App Router and React runtime.                      |
-| `@tanstack/react-form`       | State and field handling for the planned form.     |
-| `zod`                        | Validation schemas for form data.                  |
-| `nuqs`                       | URL state for planned pagination.                  |
-| `next-intl`                  | PL/EN message loading and locale-aware formatting. |
+| Runtime package                              | Purpose                                               |
+| -------------------------------------------- | ----------------------------------------------------- |
+| `next`, `react`, `react-dom`                 | App Router and React rendering.                       |
+| `@tanstack/react-form`                       | Form state and field validation.                      |
+| `zod`                                        | Product form and stored data validation.              |
+| `nuqs`                                       | Synchronization of pagination with the URL.           |
+| `radix-ui`, `class-variance-authority`, `cn` | UI primitives, component variants, and class merging. |
+| `lucide-react`                               | Interface icons.                                      |
+| `sonner`                                     | Success toast.                                        |
+| `geist`                                      | Geist Sans font.                                      |
 
-| Development package                                      | Purpose                                                      |
-| -------------------------------------------------------- | ------------------------------------------------------------ |
-| `typescript`, `@types/*`                                 | Type checking and editor support.                            |
-| `eslint`, `eslint-config-next`, `eslint-config-prettier` | Next.js, React, and TypeScript linting.                      |
-| `prettier`                                               | Consistent source formatting.                                |
-| `tailwindcss`, `@tailwindcss/postcss`                    | CSS compilation.                                             |
-| `shadcn`                                                 | UI component generator configured through `components.json`. |
-| `tw-animate-css`                                         | Animation styles imported by the generated theme.            |
+| Development package                                      | Purpose                                         |
+| -------------------------------------------------------- | ----------------------------------------------- |
+| `typescript`, `@types/*`                                 | Type checking and editor types.                 |
+| `eslint`, `eslint-config-next`, `eslint-config-prettier` | Linting and compatibility with Prettier.        |
+| `prettier`                                               | Code formatting.                                |
+| `tailwindcss`, `@tailwindcss/postcss`, `tw-animate-css`  | Styling and animation utilities.                |
+| `shadcn`                                                 | CLI for generating the project's UI components. |
 
-## Configuration map
+## Scripts
 
-| Path                                                    | Role                                               |
-| ------------------------------------------------------- | -------------------------------------------------- |
-| `package.json`, `package-lock.json`                     | Scripts and dependency versions.                   |
-| `eslint.config.mjs`, `prettier.config.mjs`              | Linting and formatting.                            |
-| `tsconfig.json`, `next.config.ts`, `postcss.config.mjs` | TypeScript, Next.js, and PostCSS setup.            |
-| `components.json`, `src/styles/globals.css`             | shadcn/ui and Tailwind setup.                      |
-| `src/i18n/`, `messages/`                                | Locale selection and empty PL/EN message catalogs. |
-| `src/app/layout.tsx`                                    | App Router root layout and provider setup.         |
-
-Feature folders will be introduced alongside the features they contain.
-
-`src/styles/globals.css` contains the neutral base theme generated by shadcn. The product UI will define its design values from the Figma reference in a later commit.
+| Command                | Purpose                                     |
+| ---------------------- | ------------------------------------------- |
+| `npm run dev`          | Start the development server.               |
+| `npm run build`        | Build the production application.           |
+| `npm run start`        | Serve the production build.                 |
+| `npm run check`        | Run lint, typecheck, and formatting checks. |
+| `npm run lint`         | Check ESLint rules.                         |
+| `npm run lint:fix`     | Fix ESLint findings where possible.         |
+| `npm run typecheck`    | Check TypeScript without emitting files.    |
+| `npm run format:check` | Check Prettier formatting.                  |
+| `npm run format`       | Apply Prettier formatting.                  |

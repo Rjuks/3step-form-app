@@ -4,7 +4,7 @@
     "count": "{count, plural, one {# product} other {# products}} in the catalog",
     "pageSummary": "Page {page} of {pageCount} · {count, plural, one {# product} other {# products}}",
     "loading": "Loading products...",
-    "switchLanguage": "Zmień język na polski",
+    "switchLanguage": "Switch to Polish",
     "name": "Name",
     "sku": "SKU",
     "category": "Category",
